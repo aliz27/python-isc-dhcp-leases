@@ -117,6 +117,13 @@ class IscDhcpLeases(object):
                 if 'hardware' not in properties:
                     # E.g. rows like {'binding': 'state abandoned', ...}
                     continue
+
+                # Skip failover states
+                if properties['binding'] == 'state backup':
+                    continue
+                if properties['binding'] == 'state free':
+                    continue
+                    
                 lease = Lease(block['ip'], properties=properties, options=options, sets=sets)
                 leases.append(lease)
 
